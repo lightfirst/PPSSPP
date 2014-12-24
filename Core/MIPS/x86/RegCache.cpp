@@ -209,12 +209,18 @@ void GPRRegCache::FlushR(X64Reg reg)
 }
 
 void GPRRegCache::FlushRemap(MIPSGPReg oldreg, MIPSGPReg newreg) {
-	if (oldreg == newreg)
-		return;
 	if (!regs[oldreg].location.IsSimpleReg()) {
 		PanicAlert("FlushRemap: Must already be in an x86 register");
 	}
+
 	OpArg oldLocation = regs[oldreg].location;
+	int xr = oldLocation.GetSimpleReg();
+
+	if (oldreg == newreg) {
+		xregs[xr].dirty = true;
+		return;
+	}
+
 	StoreFromRegister(oldreg);
 	
 	// Now, if newreg already was mapped somewhere, get rid of that.
@@ -224,7 +230,6 @@ void GPRRegCache::FlushRemap(MIPSGPReg oldreg, MIPSGPReg newreg) {
 	regs[newreg].location = oldLocation;
 	regs[newreg].away = true;
 	regs[newreg].locked = true;
-	int xr = oldLocation.GetSimpleReg();
 	xregs[xr].mipsReg = newreg;
 	xregs[xr].dirty = true;
 	xregs[xr].free = false;
