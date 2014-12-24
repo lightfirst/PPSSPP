@@ -115,18 +115,6 @@ static void JitLogMiss(MIPSOpcode op)
 	func(op);
 }
 
-JitOptions::JitOptions()
-{
-	enableBlocklink = true;
-	immBranches = false;
-	continueBranches = false; // true;
-	continueJumps = false;
-	continueMaxInstructions = 300;
-	enableVFPUSIMD = true;
-	// Set by Asm if needed.
-	reserveR15ForAsm = false;
-}
-
 #ifdef _MSC_VER
 // JitBlockCache doesn't use this, just stores it.
 #pragma warning(disable:4355)
@@ -427,7 +415,7 @@ const u8 *Jit::DoJit(u32 em_address, JitBlock *b)
 
 	b->normalEntry = GetCodePtr();
 
-	ExtractIR(em_address, &irblock);
+	ExtractIR(jo, em_address, &irblock);
 
 	gpr.Start(mips_, &js, &jo, irblock.analysis);
 	fpr.Start(mips_, &js, &jo, irblock.analysis);

@@ -29,17 +29,6 @@
 namespace MIPSComp
 {
 
-struct MIPSJitOptions
-{
-	MIPSJitOptions();
-
-	bool enableBlocklink;
-	bool immBranches;
-	bool continueBranches;
-	bool continueJumps;
-	int continueMaxInstructions;
-};
-
 class MipsJit : public MIPSGen::MIPSCodeBlock
 {
 public:
@@ -166,7 +155,7 @@ private:
 	void WriteSyscallExit();
 
 	JitBlockCache blocks;
-	MIPSJitOptions jo;
+	JitOptions jo;
 	JitState js;
 	IRBlock ir;
 	MIPSState *mips_;

@@ -287,7 +287,7 @@ const u8 *ArmJit::DoJit(u32 em_address, JitBlock *b)
 
 	b->normalEntry = GetCodePtr();
 
-	ExtractIR(em_address, &irblock);
+	ExtractIR(jo, em_address, &irblock);
 
 	// TODO: this needs work
 	MIPSAnalyst::AnalysisResults analysis; // = MIPSAnalyst::Analyze(em_address);
@@ -386,29 +386,6 @@ void ArmJit::Comp_RunBlock(MIPSOpcode op)
 {
 	// This shouldn't be necessary, the dispatcher should catch us before we get here.
 	ERROR_LOG(JIT, "Comp_RunBlock should never be reached!");
-}
-
-bool ArmJit::CanReplaceJalTo(u32 dest, const ReplacementTableEntry **entry) {
-#ifdef ARM
-	MIPSOpcode op(Memory::Read_Opcode_JIT(dest));
-	if (!MIPS_IS_REPLACEMENT(op.encoding))
-		return false;
-
-	int index = op.encoding & MIPS_EMUHACK_VALUE_MASK;
-	*entry = GetReplacementFunc(index);
-	if (!*entry) {
-		ERROR_LOG(HLE, "ReplaceJalTo: Invalid replacement op %08x at %08x", op.encoding, dest);
-		return false;
-	}
-
-	if ((*entry)->flags & (REPFLAG_HOOKENTER | REPFLAG_HOOKEXIT | REPFLAG_DISABLED)) {
-		// If it's a hook, we can't replace the jal, we have to go inside the func.
-		return false;
-	}
-	return true;
-#else
-	return false;
-#endif
 }
 
 bool ArmJit::ReplaceJalTo(u32 dest) {

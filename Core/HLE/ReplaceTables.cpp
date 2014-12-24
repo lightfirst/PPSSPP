@@ -1024,3 +1024,23 @@ bool GetReplacedOpAt(u32 address, u32 *op) {
 	}
 	return false;
 }
+
+bool CanReplaceJalTo(u32 dest, const ReplacementTableEntry **entry) {
+	MIPSOpcode op(Memory::Read_Opcode_JIT(dest));
+	if (!MIPS_IS_REPLACEMENT(op.encoding))
+		return false;
+
+	int index = op.encoding & MIPS_EMUHACK_VALUE_MASK;
+	*entry = GetReplacementFunc(index);
+	if (!*entry) {
+		ERROR_LOG(HLE, "ReplaceJalTo: Invalid replacement op %08x at %08x", op.encoding, dest);
+		return false;
+	}
+
+	if ((*entry)->flags & (REPFLAG_HOOKENTER | REPFLAG_HOOKEXIT | REPFLAG_DISABLED)) {
+		// If it's a hook, we can't replace the jal, we have to go inside the func.
+		return false;
+	}
+	return true;
+}
+

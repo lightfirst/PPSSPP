@@ -44,33 +44,21 @@ namespace MIPSComp
 // This is called when Jit hits a breakpoint.  Returns 1 when hit.
 u32 JitBreakpoint();
 
-struct JitOptions
-{
-	JitOptions();
-
-	bool enableBlocklink;
-	bool immBranches;
-	bool continueBranches;
-	bool continueJumps;
-	int continueMaxInstructions;
-	bool enableVFPUSIMD;
-	bool reserveR15ForAsm;
-};
-
 // TODO: Hmm, humongous.
 struct RegCacheState {
 	GPRRegCacheState gpr;
 	FPURegCacheState fpr;
 };
 
-class Jit : public Gen::XCodeBlock
-{
+class Jit : public Gen::XCodeBlock {
 public:
 	Jit(MIPSState *mips);
 	virtual ~Jit();
 
 	void DoState(PointerWrap &p);
 	static void DoDummyState(PointerWrap &p);
+
+	const JitOptions &GetJitOptions() { return jo; }
 
 	// Compiled ops should ignore delay slots
 	// the compiler will take care of them by itself
@@ -194,8 +182,6 @@ public:
 			blocks.InvalidateICache(em_address, length);
 		}
 	}
-
-	void ExtractIR(u32 address, IRBlock *block);
 
 private:
 	u32 GetCompilerPC();

@@ -286,6 +286,7 @@ EXEC_AND_LIB_FILES := \
   $(SRC)/Core/FileSystems/tlzrc.cpp \
   $(SRC)/Core/MIPS/JitCommon/JitCommon.cpp \
   $(SRC)/Core/MIPS/JitCommon/JitBlockCache.cpp \
+  $(SRC)/Core/MIPS/JitCommon/JitState.cpp \
   $(SRC)/Core/Util/GameManager.cpp \
   $(SRC)/Core/Util/BlockAllocator.cpp \
   $(SRC)/Core/Util/ppge_atlas.cpp \

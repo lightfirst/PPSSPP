@@ -25,24 +25,11 @@
 #include "stddef.h"
 #endif
 
-namespace MIPSComp
-{
+namespace MIPSComp {
 
 typedef int FakeReg;
 
-struct FakeJitOptions
-{
-	FakeJitOptions();
-
-	bool enableBlocklink;
-	bool immBranches;
-	bool continueBranches;
-	bool continueJumps;
-	int continueMaxInstructions;
-};
-
-class FakeJit : public FakeGen::FakeXCodeBlock
-{
+class FakeJit : public FakeGen::FakeXCodeBlock {
 public:
 	FakeJit(MIPSState *mips);
 
@@ -166,7 +153,7 @@ private:
 	void WriteSyscallExit();
 
 	JitBlockCache blocks;
-	FakeJitOptions jo;
+	JitOptions jo;
 	JitState js;
 
 	MIPSState *mips_;

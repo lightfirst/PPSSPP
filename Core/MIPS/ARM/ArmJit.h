@@ -38,44 +38,15 @@ struct ReplacementTableEntry;
 namespace MIPSComp
 {
 
-struct ArmJitOptions
-{
-	ArmJitOptions()  {
-		enableBlocklink = true;
-		downcountInRegister = true;
-		useBackJump = false;
-		useForwardJump = false;
-		cachePointers = true;
-		immBranches = false;
-		continueBranches = false;
-		continueJumps = false;
-		continueMaxInstructions = 300;
-
-		useNEONVFPU = false;  // true
-		if (!cpu_info.bNEON)
-			useNEONVFPU = false;
-	}
-
-	bool useNEONVFPU;
-	bool enableBlocklink;
-	bool downcountInRegister;
-	bool useBackJump;
-	bool useForwardJump;
-	bool cachePointers;
-	bool immBranches;
-	bool continueBranches;
-	bool continueJumps;
-	int continueMaxInstructions;
-};
-
-class ArmJit : public ArmGen::ARMXCodeBlock
-{
+class ArmJit : public ArmGen::ARMXCodeBlock {
 public:
 	ArmJit(MIPSState *mips);
 	virtual ~ArmJit();
 
 	void DoState(PointerWrap &p);
 	static void DoDummyState(PointerWrap &p);
+
+	const JitOptions &GetJitOptions() { return jo; }
 
 	// Compiled ops should ignore delay slots
 	// the compiler will take care of them by itself
@@ -214,7 +185,6 @@ public:
 
 	void EatPrefix() { js.EatPrefix(); }
 
-	void ExtractIR(u32 address, IRBlock *block);
 private:
 	u32 GetCompilerPC();
 	MIPSOpcode GetOffsetInstruction(int offset);
@@ -312,7 +282,7 @@ private:
 	void Comp_ITypeMemLR(MIPSOpcode op, bool load);
 
 	JitBlockCache blocks;
-	ArmJitOptions jo;
+	JitOptions jo;
 	JitState js;
 
 	IRBlock irblock;
