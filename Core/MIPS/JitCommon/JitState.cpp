@@ -21,7 +21,12 @@
 namespace MIPSComp {
 	JitOptions::JitOptions() {
 		enableBlocklink = true;
+#ifdef ARM
 		downcountInRegister = true;
+#else
+		downcountInRegister = false;
+#endif
+
 		useBackJump = false;
 		useForwardJump = false;
 		cachePointers = true;
