@@ -201,7 +201,6 @@ private:
 	void MovFromPC(ArmGen::ARMReg r);
 	void MovToPC(ArmGen::ARMReg r);
 
-	bool CanReplaceJalTo(u32 dest, const ReplacementTableEntry **entry);
 	bool ReplaceJalTo(u32 dest);
 
 	void SaveDowncount();
