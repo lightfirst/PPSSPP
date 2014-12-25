@@ -27,6 +27,10 @@ namespace MIPSComp {
 		downcountInRegister = false;
 #endif
 
+#if defined(_M_IX86) || defined(_M_X64)
+		enableVFPUSIMD = true;
+#endif
+
 		useBackJump = false;
 		useForwardJump = false;
 		cachePointers = true;
