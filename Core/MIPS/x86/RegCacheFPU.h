@@ -120,6 +120,8 @@ public:
 	void SetEmitter(Gen::XEmitter *emitter) {emit = emitter;}
 
 	void Flush();
+
+	void FlushRemap(int oldreg, int newreg, bool clobbered);
 	int SanityCheck() const;
 
 	const Gen::OpArg &R(int freg) const {return regs[freg].location;}

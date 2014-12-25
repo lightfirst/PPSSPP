@@ -185,9 +185,12 @@ namespace MIPSComp {
 		bool enableVFPUSIMD;
 		bool reserveR15ForAsm;
 
+		// ARM
 		bool useNEONVFPU;
-		bool enableBlocklink;
 		bool downcountInRegister;
+
+		bool useClobberOpt;
+		bool enableBlocklink;
 		bool useBackJump;
 		bool useForwardJump;
 		bool cachePointers;

@@ -3265,7 +3265,7 @@ void Jit::Comp_VRot(MIPSOpcode op) {
 		// Pair of vrot. Let's join them.
 		vd2 = MIPS_GET_VD(nextOp);
 		imm2 = (nextOp >> 16) & 0x1f;
-		NOTICE_LOG(JIT, "Joint VFPU at %08x", js.blockStart);
+		// NOTICE_LOG(JIT, "Joint vrot at %08x", js.blockStart);
 	}
 
 	u8 sreg;

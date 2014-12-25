@@ -29,8 +29,11 @@ namespace MIPSComp {
 
 #if defined(_M_IX86) || defined(_M_X64)
 		enableVFPUSIMD = true;
+#else
+		enableVFPUSIMD = false;
 #endif
 
+		useClobberOpt = false;
 		useBackJump = false;
 		useForwardJump = false;
 		cachePointers = true;
