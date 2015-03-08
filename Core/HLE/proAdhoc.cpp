@@ -1084,7 +1084,9 @@ int friendFinder(){
 					if (strcasecmp((char *)packet->name.data, "ME") == 0) strcpy((char *)packet->name.data, "NOT ME");
 
 					// Add Incoming Chat to HUD
-					//printf("Receive chat message %s", packet->base.message);
+					// show message from adhocserver
+					char *name = (char *)packet->name.data, *blank = ": ", *message = packet->base.message;
+					std::string destination = std::string(name) + std::string(blank) + std::string(message);        			osm.Show(destination, 3.0f);
 					DEBUG_LOG(SCENET, "Received chat message %s", packet->base.message);
 
 					// Move RX Buffer
@@ -1108,6 +1110,10 @@ int friendFinder(){
 
 					// Add User
 					addFriend(packet);
+					//show play joined, so we can know who joined, it isn't list player name though
+					char *name = (char *)packet->name.data, *blank = " joined";
+					std::string destination = std::string(name) + std::string(blank);
+					osm.Show(destination, 3.0f);
 
 					// Update HUD User Count
 #ifdef LOCALHOST_AS_PEER
@@ -1139,6 +1145,10 @@ int friendFinder(){
 					deleteFriendByIP(packet->ip);
 
 					// Update HUD User Count
+					// show play left. not work, do I did something long?
+					char *name = (char *)packet->name.data, *blank = " left";
+					std::string destination = std::string(name) + std::string(blank);
+					osm.Show(destination, 3.0f);
 #ifdef LOCALHOST_AS_PEER
 					setUserCount(_getActivePeerCount());
 #else
