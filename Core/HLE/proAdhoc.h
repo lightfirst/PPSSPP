@@ -720,6 +720,7 @@ typedef struct {
 typedef struct {
   SceNetAdhocctlPacketBase base;
   uint32_t ip;
+  SceNetAdhocctlNickname name;
 } PACK SceNetAdhocctlDisconnectPacketS2C;
 
 // S2C Scan Packet
