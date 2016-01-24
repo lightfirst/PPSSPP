@@ -1110,12 +1110,12 @@ int friendFinder(){
 
 					// Add User
 					addFriend(packet);
+
+					// Update HUD User Count
 					//show play joined, so we can know who joined, it isn't list player name though
 					char *name = (char *)packet->name.data, *blank = " joined";
 					std::string destination = std::string(name) + std::string(blank);
 					osm.Show(destination, 3.0f);
-
-					// Update HUD User Count
 #ifdef LOCALHOST_AS_PEER
 					setUserCount(getActivePeerCount());
 #else
@@ -1145,8 +1145,9 @@ int friendFinder(){
 					deleteFriendByIP(packet->ip);
 
 					// Update HUD User Count
-					// show play left. not work, do I did something long?
-					char *name = (char *)packet->name.data, *blank = " left";
+					// char *name = (char *)packet->name.data, *blank = " left";  
+					// fail show name, replace to Someone before I found another way to get nickname. 
+					char *name = "Someone", *blank = " left";
 					std::string destination = std::string(name) + std::string(blank);
 					osm.Show(destination, 3.0f);
 #ifdef LOCALHOST_AS_PEER
