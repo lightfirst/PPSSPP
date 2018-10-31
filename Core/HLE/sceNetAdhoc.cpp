@@ -1935,11 +1935,11 @@ static int sceNetAdhocPtpConnect(int id, int timeout, int flag) {
 				if (resolveMAC(&socket->paddr, (uint32_t *)&sin.sin_addr.s_addr)) {
 					// Grab Nonblocking Flag
 					uint32_t nbio = getBlockingFlag(socket->id);
-					// Switch to Nonblocking Behaviour
-					if (nbio == 0) {
+					//Disable Switch to Nonblocking Behaviour for fix GVGNP but broken Phantasy Star
+					/*if (nbio == 0) {
 						// Overwrite Socket Option
 						changeBlockingMode(socket->id, 1);
-					}
+					}*/
 					
 					// Connect Socket to Peer (Nonblocking)
 					int connectresult = connect(socket->id, (sockaddr *)&sin, sizeof(sin));
